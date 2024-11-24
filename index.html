@@ -1,0 +1,298 @@
+<style>
+  body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: #fafafa;
+    font-family: 'Arial', sans-serif;
+  }
+
+  #triangles {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 100px 0px 0px 100px;
+    border-color: transparent transparent transparent #674FDC;
+    transition: all 0.5s ease;
+    margin-bottom: 30px;
+  }
+
+  #result {
+    font-size: 28px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 20px;
+  }
+
+  .triangleI {
+    font-size: 20px;
+    color: #444;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  button {
+    padding: 14px 24px;
+    font-size: 16px;
+    background-color: #674FDC;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #7A4BA1;
+  }
+
+  .sliderC {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+
+  .slider {
+    width: 250px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+
+  .slider:active {
+    background: #674FDC;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #674FDC;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #674FDC;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .slider-container {
+    position: relative;
+  }
+
+  .sliderF {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 10px;
+    background-color: #674FDC;
+    border-radius: 5px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .V {
+    color: #674FDC;
+    font-weight: bold;
+  }
+
+  .slider-value {
+    font-size: 18px;
+    color: #333;
+  }
+
+  .buttonC {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  input[type="number"] {
+    width: 80px;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+  }
+
+  input[type="number"]:hover {
+    border-color: #674FDC;
+  }
+
+  progress {
+    width: 250px;
+    height: 8px;
+    border-radius: 5px;
+    background-color: #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: #ddd;
+    border-radius: 5px;
+  }
+
+  progress::-webkit-progress-value {
+    background-color: #674FDC;
+    border-radius: 5px;
+  }
+
+  progress::-moz-progress-bar {
+    background-color: #674FDC;
+    border-radius: 5px;
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .progress-value {
+    width: 55px;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+  }
+
+</style>
+
+<body>
+  <div id="triangles"></div>
+  <div id="result">삼각비의 변화를 관찰해보세요!</div>
+
+  <div class="sliderC">
+    <div class="slider-value">밑변</div>
+    <div class="slider-container">
+      <input type="range" id="base-slider" class="slider" min="10" max="300" value="100" oninput="setTri()">
+      <div class="sliderF" id="base-filled"></div>
+    </div>
+    <input type="number" id="base-input" min="10" max="300" value="100" oninput="setTriI('base')">
+  </div>
+
+  <div class="sliderC">
+    <div class="slider-value">높이</div>
+    <div class="slider-container">
+      <input type="range" id="height-slider" class="slider" min="10" max="300" value="100" oninput="setTri()">
+      <div class="sliderF" id="height-filled"></div>
+    </div>
+    <input type="number" id="height-input" min="10" max="300" value="100" oninput="setTriI('height')">
+  </div>
+
+  <div class="sliderC">
+    <div class="slider-value">각도</div>
+    <div class="slider-container">
+      <progress id="angle-progress" max="90" value="45"></progress>
+    </div>
+    <div class="progress-container">
+      <span id="angle-value" class="progress-value">45°</span>
+    </div>
+  </div>
+
+  <div class="triangleI">
+    <div>사인: <span id="sin-value" class="V">0.0000</span></div>
+    <div>코사인: <span id="cos-value" class="V">0.0000</span></div>
+    <div>텐젠트: <span id="tan-value" class="V">0.0000</span></div>
+  </div>
+
+  <script>
+    let T = { x: 100, y: 100, angle: 45 };
+
+    function HTML(name) {
+      return document.querySelector(name);
+    }
+
+    function TRI(a, b) {
+      const c = Math.sqrt(a**2 + b**2);
+
+      const sin = a / c;
+      const cos = b / c;
+      const tan = a / b;
+      T.angle = Dfinder(tan);
+      return {
+        sin: sin.toFixed(4), 
+        cos: cos.toFixed(4),
+        tan: tan.toFixed(4),
+      };
+    }
+
+    function Dfinder(tan) {
+      return Math.atan(tan) * (180 / Math.PI);
+    }
+
+    function setTri() {
+      T.x = parseInt(HTML("#base-slider").value);
+      T.y = parseInt(HTML("#height-slider").value);
+      HTML("#triangles").style.borderWidth = `${T.y}px 0px 0px ${T.x}px`;
+      HTML("#base-input").value = T.x;
+      HTML("#height-input").value = T.y;
+      HTML("#angle-value").innerHTML = T.angle.toFixed(2) + '°';
+
+      const TriI = TRI(T.x, T.y, T.angle);
+
+      HTML("#sin-value").innerText = TriI.sin;
+      HTML("#cos-value").innerText = TriI.cos;
+      HTML("#tan-value").innerText = TriI.tan;
+
+      setSliderF();
+    }
+
+    function setTriI(type) {
+      if (type === 'base') {
+        T.x = parseInt(HTML("#base-input").value);
+        HTML("#base-slider").value = T.x;
+      } else if (type === 'height') {
+        T.y = parseInt(HTML("#height-input").value);
+        HTML("#height-slider").value = T.y;
+      }
+
+      setTri();
+    }
+
+    function setA() {
+      T.angle = parseInt(HTML("#angle-progress").value);
+      const TriI = TRI(T.x, T.y);
+      HTML("#sin-value").innerText = TriI.sin;
+      HTML("#cos-value").innerText = TriI.cos;
+      HTML("#tan-value").innerText = TriI.tan;
+      setSliderF();
+    }
+
+    function setSliderF() {
+      HTML("#base-filled").style.width = (T.x - 10) / 290 * 100 + "%";
+      HTML("#height-filled").style.width = (T.y - 10) / 290 * 100 + "%";
+      HTML("#angle-progress").value = T.angle;
+    }
+
+    setTri();
+  </script>
+</body>
