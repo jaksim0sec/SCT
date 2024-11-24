@@ -110,19 +110,30 @@
   }
 
   .slider-container {
-    position: relative;
-  }
+  position: relative;
+  width: 250px; /* 슬라이더와 같은 너비 설정 */
+}
 
-  .sliderF {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 10px;
-    background-color: #674FDC;
-    border-radius: 5px;
-    z-index: 1;
-    pointer-events: none;
-  }
+#base-filled, #height-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px; /* 슬라이더의 높이와 일치시킴 */
+  background-color: #674FDC;
+  border-radius: 5px;
+  z-index: 1; /* 진행 상태 바 위로 표시 */
+}
+
+.sliderF {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px;
+  background-color: #674FDC;
+  border-radius: 5px;
+  z-index: 0; /* 진행 상태 바 아래로 배치 */
+}
+
 
   .V {
     color: #674FDC;
