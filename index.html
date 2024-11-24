@@ -110,30 +110,23 @@
   }
 
   .slider-container {
-  position: relative;
-  width: 250px; /* 슬라이더와 같은 너비 설정 */
-}
+    position: relative;
+    display: flex;
+    align-items: center;
+    height:20px;
+  }
 
-#base-filled, #height-filled {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 8px; /* 슬라이더의 높이와 일치시킴 */
-  background-color: #674FDC;
-  border-radius: 5px;
-  z-index: 1; /* 진행 상태 바 위로 표시 */
-}
-
-.sliderF {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 8px;
-  background-color: #674FDC;
-  border-radius: 5px;
-  z-index: 0; /* 진행 상태 바 아래로 배치 */
-}
-
+  .sliderF {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 8px;
+    background-color: #674FDC;
+    border-radius: 5px;
+    z-index: 1;
+    pointer-events: none;
+  }
 
   .V {
     color: #674FDC;
@@ -154,7 +147,7 @@
   }
 
   input[type="number"] {
-    width: 80px;
+    width: 55px;
     padding: 10px;
     font-size: 16px;
     margin-top: 10px;
@@ -219,7 +212,7 @@
     <div class="slider-value">밑변</div>
     <div class="slider-container">
       <input type="range" id="base-slider" class="slider" min="10" max="300" value="100" oninput="setTri()">
-      <div class="sliderF" id="base-filled"></div>
+      <div class="sliderF" id="base-filled"></div></input>
     </div>
     <input type="number" id="base-input" min="10" max="300" value="100" oninput="setTriI('base')">
   </div>
