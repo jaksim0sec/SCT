@@ -273,7 +273,7 @@
       HTML("#triangles").style.borderWidth = `${T.y}px 0px 0px ${T.x}px`;
       HTML("#base-input").value = T.x;
       HTML("#height-input").value = T.y;
-      HTML("#angle-value").innerHTML = 90-T.angle.toFixed(2) + '°';
+      HTML("#angle-value").innerHTML = (90-T.angle).toFixed(2) + '°';
 
       const TriI = TRI(T.x, T.y, T.angle);
 
